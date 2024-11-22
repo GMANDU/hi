@@ -1,0 +1,42 @@
+#include <stdio.h>
+
+#define V 5
+
+void primMST(int graph[V][V]) {
+  int parent[V]; //부모 노드
+
+  parent[0] = -1; //시작 정점은 부모가 없음
+
+  //모든 정점을 연결
+  for (int i = 1; i < V; i++) {
+    int minWeight = 100000000;
+    int minIndex = -1;
+
+    for (int v = 0; v < V; v++) {
+      if (parent[v] == -1 && graph[v][i] && graph[v][i] < minWeight) {
+        minIndex = v;
+        minWeight = graph[v][i];
+      }
+    }
+
+    parent[i] = minIndex; // 최소 가중치를 가지는 정점을 부모로 설정
+  }
+  
+  //출력
+  printf("간선    가중치\n");
+  for (int i = 1; i < V; i++)
+    printf("%d - %d   %d \n", parent[i], i, graph[i][parent[i]]);
+}
+
+int main() {
+  // 그래프 정보
+  int graph[V][V] = {{0, 2, 0, 6, 0},
+                     {2, 0, 3, 8, 5},
+                     {0, 3, 0, 0, 7},
+                     {6, 8, 0, 0, 9},
+                     {0, 5, 7, 9, 0}};
+
+  primMST(graph);
+
+  return 0;
+}
